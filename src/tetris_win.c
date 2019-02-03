@@ -3,6 +3,7 @@
 
 int tetris_callback(void* this, tetris_t* tetris, int ev_type);
 void print(tetris_win_t* t_win, tetris_t* tetris);
+char get_piece_char(int piece_type);
 int on_move();
 
 tetris_win_t* new_tetris_win(WINDOW* win, tetris_t* tetris){
@@ -51,20 +52,44 @@ void print(tetris_win_t* t_win, tetris_t* tetris){
     for(int i = 0; i<piece.qnt_blocks; i++){
         point_t p = piece.points[i];
         wmove(t_win->win, posy+p.y+1, posx+p.x+1);
-        waddch(t_win->win, 'C');
+        waddch(t_win->win, get_piece_char(tetris->piece.type));
     }
 
     //Print board blocks
+    int block_piece_type;
     for(int x = 0; x<tetris->width; x++){
         for(int y = 0; y<tetris->height; y++){
             if(tetris->board[x][y]){
+                block_piece_type = tetris->board[x][y];
                 wmove(t_win->win, y+1, x+1);
-                waddch(t_win->win, 'C');
+                waddch(t_win->win, get_piece_char(block_piece_type));
             }
         }
     }
     wmove(t_win->win, 0, 0);
     wrefresh(t_win->win);
+}
+
+char get_piece_char(int piece_type){
+    char c;
+    switch(piece_type){
+        case TETRIS_PIECE_SQUARE: c = '0';
+            break;
+        case TETRIS_PIECE_LINE: c = 'N';
+            break;
+        case TETRIS_PIECE_L: c = 'L';
+            break;
+        case TETRIS_PIECE_INVERTED_L: c = 'J';
+            break;
+        case TETRIS_PIECE_Z: c = 'Z';
+            break;
+        case TETRIS_PIECE_INVERTED_Z: c = 'S';
+            break;
+        case TETRIS_PIECE_T: c = 'T';
+            break;
+        default: c = 'O';
+    }
+    return c;
 }
 
 int on_move(tetris_win_t* t_win){
