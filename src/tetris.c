@@ -64,7 +64,7 @@ int step_tetris(tetris_t* tetris){
 
 int move_piece_tetris(tetris_t* tetris, int movement){
     int move = 1;
-    //Check if the piece can be moved to te next block
+    //Check if the piece can't be moved to te next block
     for(int i = 0; i < tetris->piece.qnt_blocks; i++){
         point_t point = tetris->piece.points[i];
         int x = point.x + tetris->piece.position.x;
@@ -75,7 +75,7 @@ int move_piece_tetris(tetris_t* tetris, int movement){
         if(x < 0 || x >= tetris->width || y >= tetris->height || tetris->board[x][y] != 0) move = 0;
     }
 
-    //If can me moved, we step one on the Y position
+    //If can me moved, we step one on the specified position
     if(move){
         if(movement & TETRIS_MOV_LEFT) tetris->piece.position.x--;
         if(movement & TETRIS_MOV_RIGHT) tetris->piece.position.x++;
