@@ -1,0 +1,6 @@
+*.swp
+*.swo
+*.orig
+error_pipe
+err.log
+build/*
