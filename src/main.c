@@ -8,7 +8,7 @@ void print_piece(piece_t piece, int offset_x, int offset_y);
 int rows;
 int columns;
 
-int main(int argc, char args[]){
+int main(int argc, char* args[]){
     initscr();
     cbreak();
     noecho();
