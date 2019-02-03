@@ -16,7 +16,7 @@ tetris_win_t* new_tetris_win(WINDOW* win, tetris_t* tetris){
     obs->instance = tetris_win;
     obs->callback = tetris_callback;
 
-    set_tetris_observer(tetris, obs);
+    tetris->observer = obs;
 
     nodelay(win, TRUE);
     wrefresh(win);

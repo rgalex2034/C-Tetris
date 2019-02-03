@@ -34,10 +34,6 @@ tetris_t* seed_new_tetris(int width, int height, unsigned int seed){
     return tetris;
 }
 
-void set_tetris_observer(tetris_t* tetris, tetris_observer_t* obs){
-    tetris->observer = obs;
-}
-
 int step_tetris(tetris_t* tetris){
     int end_game = 0;
 
