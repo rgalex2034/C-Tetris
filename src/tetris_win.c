@@ -34,7 +34,6 @@ int tetris_callback(void* this, tetris_t* tetris, int ev_type){
         case TETRIS_EV_MOVE:
             movement = on_move(t_win);
             if(movement){
-                move_piece_tetris(tetris, movement);
                 print(t_win, tetris);
             }
             break;
@@ -101,7 +100,6 @@ int on_move(tetris_win_t* t_win){
         else if(ch == 'l') movement = movement | TETRIS_MOV_RIGHT;
         else if(ch == 'j') movement = movement | TETRIS_MOV_DOWN;
     }
-    //TODO: This will must be used when routine movements are done, instead of return.
-    //if(movement) move_piece_tetris(t_win->tetris, movement);
+    if(movement) move_piece_tetris(t_win->tetris, movement);
     return movement;
 }
