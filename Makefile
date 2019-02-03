@@ -3,5 +3,5 @@ build:
 clean:
 	rm -r build
 rebuild: clean build
-run:
+run: build
 	./build/tetris
