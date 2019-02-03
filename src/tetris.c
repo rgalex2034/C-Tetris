@@ -122,7 +122,6 @@ void run_tetris(tetris_t* tetris){
 
         //Check movement
         movement = tetris->observer->callback(tetris->observer->instance, tetris, TETRIS_EV_MOVE);
-        if(movement) move_piece_tetris(tetris, movement);
 
         //Reset time accumulators if necessary
         if(speed_acc < 0) speed_acc = 0;

@@ -25,13 +25,17 @@ tetris_win_t* new_tetris_win(WINDOW* win, tetris_t* tetris){
 
 int tetris_callback(void* this, tetris_t* tetris, int ev_type){
     tetris_win_t* t_win = (tetris_win_t*)this;
+    int movement;
     switch(ev_type){
         case TETRIS_EV_STEP:
             print(t_win, tetris);
             break;
         case TETRIS_EV_MOVE:
-            print(t_win, tetris);
-            return on_move(t_win);
+            movement = on_move(t_win);
+            if(movement){
+                move_piece_tetris(tetris, movement);
+                print(t_win, tetris);
+            }
             break;
     }
     return 0;
