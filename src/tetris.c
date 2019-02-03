@@ -88,7 +88,6 @@ int move_piece_tetris(tetris_t* tetris, int movement){
 void run_tetris(tetris_t* tetris){
     //Game status variables
     int end = 0;
-    int movement = 0;
 
     //Time limit variables
     long speed = 5e8;
@@ -120,8 +119,8 @@ void run_tetris(tetris_t* tetris){
         }
         if(end) break;
 
-        //Check movement
-        movement = tetris->observer->callback(tetris->observer->instance, tetris, TETRIS_EV_MOVE);
+        //Trigger frame event
+        tetris->observer->callback(tetris->observer->instance, tetris, TETRIS_EV_FRAME);
 
         //Reset time accumulators if necessary
         if(speed_acc < 0) speed_acc = 0;

@@ -16,7 +16,7 @@
 
 //Tetris events
 #define TETRIS_EV_STEP 0
-#define TETRIS_EV_MOVE 1
+#define TETRIS_EV_FRAME 1
 
 //Tetris piece movement
 #define TETRIS_MOV_LEFT 0b001
