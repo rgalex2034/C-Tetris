@@ -1,3 +1,5 @@
+#ifndef TETRIS
+#define TETRIS
 /**
  * Constant definitions
  */
@@ -65,3 +67,4 @@ int step_tetris(tetris_t*);
 void run_tetris(tetris_t*);
 void set_tetris_observer(tetris_t* tetris, tetris_observer_t* obs);
 void free_tetris(tetris_t* tetris);
+#endif

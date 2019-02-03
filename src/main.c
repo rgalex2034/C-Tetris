@@ -1,6 +1,6 @@
 #include <ncurses.h>
 #include "ecurses.h"
-//#include "tetris.h"
+#include "tetris.h"
 #include "tetris_win.h"
 
 void print_piece(piece_t piece, int offset_x, int offset_y);
