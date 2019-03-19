@@ -1,5 +1,5 @@
 build:
-	mkdir -p build && gcc -o build/tetris src/* -lncurses
+	mkdir -p build && gcc -o build/tetris src/* -lncurses || rm -d build
 clean:
 	rm -r build
 rebuild: clean build
