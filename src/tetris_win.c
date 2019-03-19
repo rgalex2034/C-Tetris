@@ -18,7 +18,7 @@ tetris_win_t* new_tetris_win(WINDOW* win, tetris_t* tetris){
 
     tetris->observer = obs;
 
-    nodelay(win, TRUE);
+    nodelay(win, TRUE);//When trying to grab key press, if not found, do not block.
     wrefresh(win);
 
     return tetris_win;
@@ -96,7 +96,6 @@ int check_move(tetris_win_t* t_win){
     int movement = 0;
     int ch;
     while((ch = wgetch(t_win->win)) != ERR){
-        //fprintf(stderr, "Pressing %c\n", ch);
         if(ch == 'h') movement = movement | TETRIS_MOV_LEFT;
         else if(ch == 'l') movement = movement | TETRIS_MOV_RIGHT;
         else if(ch == 'j') movement = movement | TETRIS_MOV_DOWN;

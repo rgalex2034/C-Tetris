@@ -17,7 +17,7 @@ tetris_t* new_tetris(int width, int height){
 
 tetris_t* seed_new_tetris(int width, int height, unsigned int seed){
     tetris_t* tetris = malloc(sizeof(*tetris));
-    //Initialize state
+    //Initialize state for random piece generation
     int state_size = 32;
     tetris->state = malloc(sizeof(*(tetris->state))*state_size);
     initstate(seed, tetris->state, state_size);
