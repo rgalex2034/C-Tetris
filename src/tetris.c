@@ -148,8 +148,8 @@ int** new_board(int width, int height){
 }
 
 piece_t next_piece(tetris_t* tetris){
-    int piece_type = random()%TETRIS_MAX_PIECES+1;//Evade empty piece
     tetris->state = setstate(tetris->state);
+    int piece_type = random()%TETRIS_MAX_PIECES+1;//Evade empty piece
 
     //Create a piece and set it's position to the board's center
     piece_t piece = new_piece(piece_type);
