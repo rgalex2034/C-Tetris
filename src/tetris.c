@@ -18,9 +18,7 @@ tetris_t* new_tetris(int width, int height){
 tetris_t* seed_new_tetris(int width, int height, unsigned int seed){
     tetris_t* tetris = malloc(sizeof(*tetris));
     //Initialize state for random piece generation
-    int state_size = 32;
-    tetris->state = malloc(sizeof(*(tetris->state))*state_size);
-    initstate(seed, tetris->state, state_size);
+    tetris->state = seed;
 
     //Initialize board
     tetris->board = new_board(width, height);
@@ -128,7 +126,6 @@ void run_tetris(tetris_t* tetris){
 }
 
 void free_tetris(tetris_t* tetris){
-    free(tetris->state);
     for(int i = 0; i<tetris->width; i++)
         free(tetris->board[i]);
     free(tetris->board);
@@ -148,8 +145,7 @@ int** new_board(int width, int height){
 }
 
 piece_t next_piece(tetris_t* tetris){
-    tetris->state = setstate(tetris->state);
-    int piece_type = random()%TETRIS_MAX_PIECES+1;//Evade empty piece
+    int piece_type = rand_r(&tetris->state)%TETRIS_MAX_PIECES+1;//Evade empty piece
 
     //Create a piece and set it's position to the board's center
     piece_t piece = new_piece(piece_type);

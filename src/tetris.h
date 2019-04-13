@@ -39,7 +39,7 @@ typedef struct {
 } piece_t;
 
 typedef struct tetris_t{
-    char* state;
+    unsigned int state;
     piece_t piece;
     int** board;
     int width;
