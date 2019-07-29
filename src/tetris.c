@@ -86,6 +86,8 @@ void run_tetris(tetris_t* tetris){
     //Time limit variables
     long speed = 5e8;
     long speed_acc = 0;
+    int frames_per_second = 60;
+    int freq_ns = 1/frames_per_second*1000000;
 
     //Time holding vairables
     struct timespec before = {
@@ -120,7 +122,7 @@ void run_tetris(tetris_t* tetris){
         if(speed_acc < 0) speed_acc = 0;
 
         //Force thread to wait and set time before as now
-        usleep(16666);
+        usleep(freq_ns);
         before = now;
     }
 }
