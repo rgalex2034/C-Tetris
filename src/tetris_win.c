@@ -4,7 +4,7 @@
 int tetris_callback(void* this, tetris_t* tetris, int ev_type);
 void print(tetris_win_t* t_win, tetris_t* tetris);
 char get_piece_char(int piece_type);
-int check_move();
+int check_move(tetris_win_t* t_win);
 
 tetris_win_t* new_tetris_win(WINDOW* win, tetris_t* tetris){
     tetris_win_t* tetris_win = malloc(sizeof(*tetris_win));
@@ -26,15 +26,16 @@ tetris_win_t* new_tetris_win(WINDOW* win, tetris_t* tetris){
 
 int tetris_callback(void* this, tetris_t* tetris, int ev_type){
     tetris_win_t* t_win = (tetris_win_t*)this;
-    int movement;
+    int movement, rotation;
     switch(ev_type){
         case TETRIS_EV_STEP:
             print(t_win, tetris);
             break;
-        case TETRIS_EV_FRAME:
+        case TETRIS_EV_TICK:
             //Check movement keys on every frame
             movement = check_move(t_win);
             if(movement){
+                move_piece_tetris(t_win->tetris, movement);
                 print(t_win, tetris);
             }
             break;
@@ -93,13 +94,13 @@ char get_piece_char(int piece_type){
 }
 
 int check_move(tetris_win_t* t_win){
-    int movement = 0;
+    short int movement = 0;
     int ch;
     while((ch = wgetch(t_win->win)) != ERR){
         if(ch == 'h') movement = movement | TETRIS_MOV_LEFT;
         else if(ch == 'l') movement = movement | TETRIS_MOV_RIGHT;
         else if(ch == 'j') movement = movement | TETRIS_MOV_DOWN;
+        else if(ch == ' ') movement = movement | TETRIS_ROTATE_RIGHT;
     }
-    if(movement) move_piece_tetris(t_win->tetris, movement);
     return movement;
 }

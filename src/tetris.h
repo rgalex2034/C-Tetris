@@ -16,12 +16,15 @@
 
 //Tetris events
 #define TETRIS_EV_STEP 0
-#define TETRIS_EV_FRAME 1
+#define TETRIS_EV_TICK 1
 
 //Tetris piece movement
-#define TETRIS_MOV_LEFT 0b001
-#define TETRIS_MOV_RIGHT 0b010
-#define TETRIS_MOV_DOWN 0b100
+#define TETRIS_MOV_LEFT     0b00001
+#define TETRIS_MOV_RIGHT    0b00010
+#define TETRIS_MOV_DOWN     0b00100
+//Tetris piece rotation     -------
+#define TETRIS_ROTATE_RIGHT 0b01000
+#define TETRIS_ROTATE_LEFT  0b10000
 
 /**
  * Base data definition for tetris
@@ -62,7 +65,7 @@ typedef struct tetris_observer_t{
  */
 tetris_t* new_tetris(int width, int height);
 tetris_t* seed_new_tetris(int width, int height, unsigned int seed);
-int move_piece_tetris(tetris_t* tetris, int movement);
+int move_piece_tetris(tetris_t* tetris, short int movement);
 int step_tetris(tetris_t*);
 void run_tetris(tetris_t*);
 void set_tetris_observer(tetris_t* tetris, tetris_observer_t* obs);

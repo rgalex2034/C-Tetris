@@ -7,6 +7,7 @@
 int** new_board(int width, int height);
 piece_t next_piece(tetris_t* tetris);
 piece_t new_piece(int type);
+int rotate_piece_tetris(tetris_t* tetris, short int direction);
 
 /**
  * Public functions
@@ -56,8 +57,9 @@ int step_tetris(tetris_t* tetris){
     return end_game;
 }
 
-int move_piece_tetris(tetris_t* tetris, int movement){
-    int move = 1;
+int move_piece_tetris(tetris_t* tetris, short int movement){
+    if(movement & TETRIS_ROTATE_RIGHT) rotate_piece_tetris(tetris, TETRIS_ROTATE_RIGHT);
+
     //Check if the piece can't be moved to te next block
     for(int i = 0; i < tetris->piece.qnt_blocks; i++){
         point_t point = tetris->piece.points[i];
@@ -66,17 +68,43 @@ int move_piece_tetris(tetris_t* tetris, int movement){
         if(movement & TETRIS_MOV_LEFT) x--;
         if(movement & TETRIS_MOV_RIGHT) x++;
         if(movement & TETRIS_MOV_DOWN) y++;
-        if(x < 0 || x >= tetris->width || y >= tetris->height || tetris->board[x][y] != 0) move = 0;
+        if(x < 0 || x >= tetris->width || y >= tetris->height || tetris->board[x][y] != 0) return 0;
     }
 
     //If can me moved, we step one on the specified position
-    if(move){
-        if(movement & TETRIS_MOV_LEFT) tetris->piece.position.x--;
-        if(movement & TETRIS_MOV_RIGHT) tetris->piece.position.x++;
-        if(movement & TETRIS_MOV_DOWN) tetris->piece.position.y++;
+    if(movement & TETRIS_MOV_LEFT) tetris->piece.position.x--;
+    if(movement & TETRIS_MOV_RIGHT) tetris->piece.position.x++;
+    if(movement & TETRIS_MOV_DOWN) tetris->piece.position.y++;
+
+    return 1;
+}
+
+int rotate_piece_tetris(tetris_t* tetris, short int direction){
+    int cx = 0, cy = 0;
+    //Calculate the center point of the piece
+    for(int n = 0; n < tetris->piece.qnt_blocks; n++){
+        cx += tetris->piece.points[n].x;
+        cy += tetris->piece.points[n].y;
+    }
+    cx /= tetris->piece.qnt_blocks;
+    cy /= tetris->piece.qnt_blocks;
+
+    //Check every position if possible
+    for(int n = 0; n < tetris->piece.qnt_blocks; n++){
+        int x = -tetris->piece.points[n].y-cy + tetris->piece.position.x;
+        int y = tetris->piece.points[n].x+cx + tetris->piece.position.y;
+        if(x < 0 || x >= tetris->width || y >= tetris->height || tetris->board[x][y] != 0) return 0;
     }
 
-    return move;
+    //Make actual rotation
+    for(int n = 0; n < tetris->piece.qnt_blocks; n++){
+        int x = tetris->piece.points[n].x;
+        int y = tetris->piece.points[n].y;
+        tetris->piece.points[n].x = -y-cy;
+        tetris->piece.points[n].y = x-cx;
+    }
+
+    return 1;
 }
 
 void run_tetris(tetris_t* tetris){
@@ -116,7 +144,7 @@ void run_tetris(tetris_t* tetris){
         if(end) break;
 
         //Trigger frame event
-        tetris->observer->callback(tetris->observer->instance, tetris, TETRIS_EV_FRAME);
+        tetris->observer->callback(tetris->observer->instance, tetris, TETRIS_EV_TICK);
 
         //Reset time accumulators if necessary
         if(speed_acc < 0) speed_acc = 0;
