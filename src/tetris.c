@@ -8,6 +8,7 @@ int** new_board(int width, int height);
 piece_t next_piece(tetris_t* tetris);
 piece_t new_piece(int type);
 int rotate_piece_tetris(tetris_t* tetris, short int direction);
+void check_for_rows(tetris_t*);
 
 /**
  * Public functions
@@ -48,6 +49,7 @@ int step_tetris(tetris_t* tetris){
         }
         free(tetris->piece.points);
         tetris->piece = next_piece(tetris);
+        check_for_rows(tetris);
     }else{
         //If we can't move the piece, and the piece is at top, end the game.
         if(tetris->piece.position.y == 0) end_game = 1;
@@ -172,6 +174,34 @@ int** new_board(int width, int height){
         board[i] = calloc(height, sizeof(**board));
     }
     return board;
+}
+
+void check_for_rows(tetris_t* tetris){
+    short int complete_row;
+    //fprintf(STDERR, "Checking for rows\n");
+    //For every row, check if it's full, and if it is, move all rows above, one row down.
+    for(int y = tetris->height-1; y >= 0; y--){
+
+        //Assume a row is complete, unless we find and empty space.
+        complete_row = 1;
+        for(int x = 0; x < tetris->width; x++){
+            if(!tetris->board[x][y]){
+                complete_row = 0;
+                break;
+            }
+        }
+
+        //Move all rows from above, one row down
+        if(complete_row){
+            //fprintf(STDERR, "Complete row!\n");
+            for(int top_y = y-1; top_y >= 0; top_y--){
+                for(int top_x = 0; top_x < tetris->width; top_x++){
+                    tetris->board[top_x][top_y+1] = tetris->board[top_x][top_y];
+                }
+            }
+        }
+
+    }
 }
 
 piece_t next_piece(tetris_t* tetris){
