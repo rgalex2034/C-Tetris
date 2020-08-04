@@ -54,10 +54,9 @@ typedef struct tetris_t{
 /**
  * Observer structure
  */
-typedef int (*tetris_event_fp)(void* this, tetris_t* tetris, int event_type);
 typedef struct tetris_observer_t{
     void* instance;
-    tetris_event_fp callback;
+    int (*callback)(void* this, tetris_t* tetris, int event_type);
 } tetris_observer_t;
 
 /**
