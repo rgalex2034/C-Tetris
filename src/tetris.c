@@ -199,6 +199,8 @@ void check_for_rows(tetris_t* tetris){
                     tetris->board[top_x][top_y+1] = tetris->board[top_x][top_y];
                 }
             }
+            //Do not move to the next row, so we process the new row moved down
+            y++;
         }
 
     }
