@@ -5,7 +5,7 @@ A Tetris copy made on C, with the only purpose of learning C.
 The game tries to mimic Tetris behaviour using **ncurses** to manipulate terminal output.
 This game relies on some functions from `unistd.h`, so I don't expect it to compile on windows.
 
-## Dependiences
+## Dependencies
 The only third party dependency to build against is ncurses.
 You can install it on Debian based systems with:
 `sudo apt-get install libncurses5-dev`.
