@@ -31,4 +31,4 @@ If you want to make the same thing without **make**, the equivalent of those two
 ### Installation
 There is no **installation** process done yet, but as it's a simple binary
 you could copy it on a directory that is set on your `$PATH` or add a new directory on `$PATH`
-with the `tetrìs` binary from the build folder inside.
+with the `tetris` binary from the build folder inside.
